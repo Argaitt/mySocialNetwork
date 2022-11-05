@@ -1,0 +1,8 @@
+.dialog .navLink{
+    color: #9B9BB3;
+    text-decoration: none;
+}
+.active{
+    color: #4b4b7a;
+    text-decoration: none;
+}
