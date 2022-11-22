@@ -25,6 +25,7 @@ const Nav = () => {
             <div>
                 <NavLink to="/settings" className={navData => isActive(navData)}>Settings</NavLink>
             </div>
+            <div><NavLink to="/funspace" className={navData => isActive(navData)}>FunSpace</NavLink></div>
         </nav>
     )
 }

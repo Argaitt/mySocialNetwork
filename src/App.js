@@ -7,6 +7,8 @@ import {Route, Routes} from "react-router-dom";
 import News from "./components/News/News";
 import Settings from "./components/Settings/Settings";
 import Music from "./components/Music/Music";
+import store from "./Redux/Store";
+import  Funspace from './components/Funspace/Funspace'
 
 const App = (props) => {
   return (
@@ -16,13 +18,16 @@ const App = (props) => {
           <div className={"app-wrapper-content"}>
               <Routes>
                   <Route path="/profile"
-                         element={<Profile state={props.state.profilePage}/>}/>
+                         element={<Profile profilePage={props.state.profilePage}
+                                           dispatch={props.state.dispatch.bind(store)}/>}/>
                   <Route path="/dialogs/*"
-                         element={<Dialogs
-                             state={props.state.dialogPage} />}/>
+                         element={<Dialogs dialogPage={props.state.dialogPage}
+                                           dispatch={props.state.dispatch.bind(store)} />}/>
                   <Route path="/news" element={<News/>}/>
                   <Route path="/settings" element={<Settings/>}/>
                   <Route path="/music" element={<Music/>}/>
+                  <Route path="/funspace"
+                         element={<Funspace funspacePage={props.state.funspacePage} dispatch={props.state.dispatch.bind(store)}/>}/>
               </Routes>
           </div>
       </div>
