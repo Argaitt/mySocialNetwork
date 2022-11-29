@@ -1,6 +1,6 @@
 import React  from "react";
 import classes from "./Funspace.module.css"
-import {checkBracketActionCreator} from "../../Redux/Store";
+import {checkBracketActionCreator} from "../../Redux/funReducer";
 const Funspace = (props) => {
 
     let ref = React.createRef();
