@@ -1,4 +1,3 @@
-const UPDATE_NEW_MESSAGE_POST = 'UPDATE-NEW-MESSAGE-POST';
 const SEND_MESSAGE = 'SEND-MESSAGE';
 
 let initialState = {
@@ -17,35 +16,20 @@ let initialState = {
         {id: 4, messages: 'Nice to meet you!'},
         {id: 5, messages: 'let go to party!'},
         {id: 6, messages: 'just calm down;)'},
-    ],
-    newMessageText: 'it-kamasutra'
+    ]
 }
 
-const dialogReducer = (state = initialState, action ) => {
-
-    const updateNewMessageText = (newMessageText) => {
-        state.newMessageText = newMessageText;
-    };
-
-    const sendMessage = () => {
-        let text = state.newMessageText;
-        state.newMessageText = '';
-        //TODO: check sideEffects
-        state.messagesData.push({id: state.messagesData.length++, messages: text});
-    };
-
+const dialogReducer = (state = initialState, action) => {
     switch (action.type) {
-        case UPDATE_NEW_MESSAGE_POST:
-            updateNewMessageText(action.messageText)
-            return state;
         case SEND_MESSAGE:
-            sendMessage();
-            return state;
+            return {
+                ...state,
+                messagesData: [...state.messagesData, {id: state.messagesData.length++, messages: action.newMessageBody}]
+            };
         default:
             return state;
     }
 }
 
-export const  sendMessageActionCreator = () => ({type: SEND_MESSAGE})
-export const  updateNewMessageTextActionCreator = (text) => ({type: UPDATE_NEW_MESSAGE_POST, messageText: text})
+export const  sendMessage = (newMessageBody) => ({type: SEND_MESSAGE, newMessageBody})
 export default dialogReducer;

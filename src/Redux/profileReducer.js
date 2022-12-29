@@ -1,5 +1,8 @@
-const ADD_POST = "ADD-POST";
-const UPDATE_NEW_TEXT_POST = 'UPDATE-NEW-TEXT-POST';
+import {profileAPI, usersAPI} from "../api/api";
+
+const ADD_POST = "ADD_POST";
+const SET_USER_PROFILE = 'SET_USER_PROFILE';
+const SET_STATUS = 'SET_STATUS';
 
 let initialState = {
     myPostsData : [
@@ -7,37 +10,54 @@ let initialState = {
         {id:2, messages: 'Nice acc', likesCount: 12},
         {id:3, messages: 'Just in time', likesCount: 0},
     ],
-        newPostText: 'it-kamasutra'
+    newPostText: 'it-kamasutra',
+    profile: null,
+    status: ''
 };
 
 const profileReducer = (state = initialState, action) => {
-
-    const addPost = () => {
-        let newPost = {
-            id: 5,
-            messages: state.newPostText,
-            likesCount: 0
-        };
-        state.myPostsData.push(newPost);
-        state.newPostText = "";
-    }
-
-    const updateNewPostText = (newText) => {
-        state.newPostText = newText;
-    }
-
     switch (action.type) {
         case ADD_POST:
-            addPost();
-            return state;
-        case UPDATE_NEW_TEXT_POST:
-            updateNewPostText(action.newText);
-            return state;
+            return {
+                ...state,
+                myPostsData: [...state.myPostsData, { id: state.myPostsData.length + 1, messages: action.message, likesCount: 0}],
+            }
+        case SET_USER_PROFILE:
+            return {...state, profile: action.profile};
+        case SET_STATUS:
+            return {...state, status: action.status};
         default:
             return state;
     };
 }
-export const updateNewPostTextActionCreator = (text) => ({type: UPDATE_NEW_TEXT_POST, newText: text});
-export const addPostActionCreator = () => ({type: ADD_POST});
+//action creators
+export const addPost = (messageData) => ({type: ADD_POST, message: messageData.message});
+export const setUserProfile = (profile) => ({type: SET_USER_PROFILE, profile})
+export const setStatus = (status) => ({type: SET_STATUS, status})
+
+export const getUserProfileThunkCreator = (userId, authMeUserId) => {
+    return (dispatch) => {
+        let localUserId
+        userId ? localUserId = userId : localUserId = authMeUserId
+        usersAPI.getUserProfile(localUserId).then(data => {
+            dispatch(setUserProfile(data));
+        })
+    }
+}
+
+//Thunks
+export const getUserStatusThunkCreator = (userId) => {
+    return (dispatch) => {
+        profileAPI.getStatus(userId).then(data => dispatch(setStatus(data)))
+    }
+}
+
+export const updateUserStatusThunkCreator = (status) => {
+    return (dispatch) => {
+        profileAPI.updateStatus(status).then(data => {
+            if (data.resultCode ===0) dispatch(setStatus(status))
+        })
+    }
+}
 
 export default profileReducer;

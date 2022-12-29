@@ -1,3 +1,4 @@
+// this is study store, for understanding redux store structure
 import profileReducer from "./profileReducer";
 import dialogReducer from "./dialogReducer";
 import funReducer from "./funReducer";
@@ -40,7 +41,6 @@ let store = {
     },
 
     dispatch(action){
-        //debugger;
         this.profilePage = profileReducer(action, this.profilePage);
         this.dialogPage = dialogReducer(action, this.dialogPage);
         this.funspacePage = funReducer(action, this.funspacePage);

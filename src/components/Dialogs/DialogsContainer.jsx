@@ -1,36 +1,21 @@
-import React  from "react";
-import Message from "./Message/Message";
-import DialogItem from "./DialogItem/DialogItem";
-import {sendMessageActionCreator, updateNewMessageTextActionCreator} from "../../Redux/dialogReducer";
-import Dialogs from "./Dialogs";
-import StoreContext from "../../Redux/StoreContext";
-const DialogsContainer = (props) => {
-    return (
-        <StoreContext.Consumer>{
-            (store) => {
-                let state = store.getState();
-                let dialogItemsData = state.dialogPage.dialogsData
-                    .map(dialogData => <DialogItem name={dialogData.name} id={dialogData.id}/>);
-                let messagesItemsData = state.dialogPage.messagesData
-                    .map(messageData => <Message message={messageData.messages}/>);
+import {sendMessage} from "../../Redux/dialogReducer";
+import {connect} from "react-redux";
+import dialogs from "./Dialogs";
+import {withAuthRedirect} from "../../hoc/AuthRedirect";
+import {compose} from "@reduxjs/toolkit";
 
-                let onSendMessageClick = () => {
-                    store.dispatch(sendMessageActionCreator());
-                };
-                let onNewMessageChange = (body) => {
-                    store.dispatch(updateNewMessageTextActionCreator(body));
-                };
-                return (
-
-                    <Dialogs dialogItemsData={dialogItemsData} messagesItemsData={messagesItemsData}
-                             onSendMessageClick={onSendMessageClick} onNewMessagesChange={onNewMessageChange}
-                             newMessageText={state.dialogPage.newMessageText}/>
-
-                )
-            }
-        }
-        </StoreContext.Consumer>
-    )
+let mapStateToProps = (state) => {
+    return {
+        dialogPage: state.dialogPage,
+        isAuth: state.auth.isAuth
+    }
 }
 
-export default DialogsContainer;
+let mapDispatchToProps = {
+    sendMessage
+}
+
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    withAuthRedirect
+)(dialogs)

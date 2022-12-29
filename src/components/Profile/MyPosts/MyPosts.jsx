@@ -1,19 +1,15 @@
 import React from "react";
 import classes from "./MyPosts.module.css"
 import Post from "./Post/Post";
+import AddNewMyPostReduxForm from "./AddNewMyPostReduxForm";
 
 const MyPosts = (props) => {
-    //TODO framework trying replace "map" to "for..in"
-    let posts = props.posts.map(post => <Post key={post.id}  message={post.messages} likesCount={post.likesCount}/>)
-    let newPostElement = React.createRef();
+    let posts = props.profilePage.myPostsData.map(post => <Post key={post.id}  message={post.messages} likesCount={post.likesCount}/>)
     return(
             <div className={classes.postsBlock}>
                 <h3>My posts</h3>
                 <div>
-                    <textarea onChange={() => props.updateNewPostText(newPostElement.current.value)} ref={newPostElement} value={props.newPostText}/>
-                </div>
-                <div>
-                    <button onClick={props.addPost}>Add post</button>
+                    <AddNewMyPostReduxForm onSubmit={props.addPost}/>
                 </div>
                 <div className={classes.posts}>
                     {posts}

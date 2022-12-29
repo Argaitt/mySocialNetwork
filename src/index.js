@@ -5,26 +5,20 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from "react-router-dom";
 import store from "./Redux/reduxStore";
-import StoreContext from "./Redux/StoreContext";
+import {Provider} from "react-redux";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-let renderReactTree = (state) => {
-    root.render(
-        <React.StrictMode>
-            <BrowserRouter>
-                <StoreContext.Provider value={store}>
-                    <App/>
-                </StoreContext.Provider>
-            </BrowserRouter>
-        </React.StrictMode>
-    );
-}
-
-renderReactTree(store);
-
-store.subscribe(() => {renderReactTree(store)});
-
+root.render(
+    //TODO: strictMode rendering componets twice.
+    <React.StrictMode>
+        <BrowserRouter>
+            <Provider store={store}>
+                <App/>
+            </Provider>
+        </BrowserRouter>
+    </React.StrictMode>
+);
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

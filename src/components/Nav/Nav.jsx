@@ -11,21 +11,22 @@ const Nav = () => {
     return(
         <nav className={classes.nav}>
             <div>
-                <NavLink to="/profile" className={navData => isActive(navData)}>Profile</NavLink>
+                <NavLink to="/profile/" className={navData => isActive(navData)}>Profile</NavLink>
             </div>
             <div>
-                <NavLink to="/dialogs" className={navData => isActive(navData)}>Dialogs</NavLink>
+                <NavLink to="/dialogs/" className={navData => isActive(navData)}>Dialogs</NavLink>
             </div>
             <div>
-                <NavLink to="/news" className={navData => isActive(navData)}>News</NavLink>
+                <NavLink to="/news/" className={navData => isActive(navData)}>News</NavLink>
             </div>
             <div>
-                <NavLink to="/music" className={navData => isActive(navData)}>Music</NavLink>
+                <NavLink to="/music/" className={navData => isActive(navData)}>Music</NavLink>
             </div>
             <div>
-                <NavLink to="/settings" className={navData => isActive(navData)}>Settings</NavLink>
+                <NavLink to="/settings/" className={navData => isActive(navData)}>Settings</NavLink>
             </div>
-            <div><NavLink to="/funspace" className={navData => isActive(navData)}>FunSpace</NavLink></div>
+            <div><NavLink to="/funspace/" className={navData => isActive(navData)}>FunSpace</NavLink></div>
+            <div><NavLink to="/users/" className={navData => isActive(navData)}>Users</NavLink></div>
         </nav>
     )
 }
