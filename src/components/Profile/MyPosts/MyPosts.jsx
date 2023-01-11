@@ -4,6 +4,7 @@ import Post from "./Post/Post";
 import AddNewMyPostReduxForm from "./AddNewMyPostReduxForm";
 
 const MyPosts = (props) => {
+
     let posts = props.profilePage.myPostsData.map(post => <Post key={post.id}  message={post.messages} likesCount={post.likesCount}/>)
     return(
             <div className={classes.postsBlock}>

@@ -1,16 +1,20 @@
 import React from "react";
 import {Field, reduxForm} from "redux-form";
+import {Input} from "../FromsControlls/FromsControlls";
+import {requiredField} from "../../utils/validators/validators";
+import {connect} from "react-redux";
+import {login} from "../../Redux/authReducer";
 
 const LoginForm = (props) => {
     return <form onSubmit={props.handleSubmit}>
         <div>
-            <Field name='login' type="text" placeholder='login' component='input'/>
+            <Field validate={[requiredField]} name='email' type="text" placeholder='email' component={Input}/>
         </div>
         <div>
-            <Field name='password' type="text" placeholder='password' component='input'/>
+            <Field validate={[requiredField]} name='password' type="password" placeholder='password' component={Input}/>
         </div>
         <div>
-            <Field name='rememberMe' type="checkbox" component='input'/> remember me
+            <Field name='rememberMe' type="checkbox" component={Input}/> remember me
         </div>
         <div>
             <button>Sign in</button>
@@ -20,9 +24,9 @@ const LoginForm = (props) => {
 
 const LoginReduxForm = reduxForm( {form: 'login'} )(LoginForm)
 
-const Login = () => {
+const Login = (props) => {
     const onSubmit = (formData) => {
-        console.log(formData)
+        props.login(formData.email, formData.password, formData.rememberMe)
     }
 
     return <div>
@@ -31,4 +35,4 @@ const Login = () => {
     </div>
 }
 
-export default Login
+export default connect(null, {login})(Login)
