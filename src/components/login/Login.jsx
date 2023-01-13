@@ -4,6 +4,8 @@ import {Input} from "../FromsControlls/FromsControlls";
 import {requiredField} from "../../utils/validators/validators";
 import {connect} from "react-redux";
 import {login} from "../../Redux/authReducer";
+import {Navigate, redirect} from "react-router-dom";
+import Profile from "../Profile/Profile";
 
 const LoginForm = (props) => {
     return <form onSubmit={props.handleSubmit}>
@@ -28,11 +30,18 @@ const Login = (props) => {
     const onSubmit = (formData) => {
         props.login(formData.email, formData.password, formData.rememberMe)
     }
-
-    return <div>
-        <h1>Login</h1>
-        <LoginReduxForm onSubmit={onSubmit}/>
-    </div>
+    if (props.isAuth){
+        return <Navigate to={'/profile'}/>
+    } else {
+        return <div>
+            <h1>Login</h1>
+            <LoginReduxForm onSubmit={onSubmit}/>
+        </div>
+    }
 }
 
-export default connect(null, {login})(Login)
+const mapStateToProps = (state) => ({
+    isAuth: state.auth.isAuth
+})
+
+export default connect(mapStateToProps, {login})(Login)
