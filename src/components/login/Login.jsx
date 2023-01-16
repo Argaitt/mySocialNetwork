@@ -5,7 +5,6 @@ import {requiredField} from "../../utils/validators/validators";
 import {connect} from "react-redux";
 import {login} from "../../Redux/authReducer";
 import {Navigate, redirect} from "react-router-dom";
-import Profile from "../Profile/Profile";
 
 const LoginForm = (props) => {
     return <form onSubmit={props.handleSubmit}>
@@ -36,12 +35,14 @@ const Login = (props) => {
         return <div>
             <h1>Login</h1>
             <LoginReduxForm onSubmit={onSubmit}/>
+            {props.captchaUrl === null ? undefined : <img src={props.captchaUrl} alt="no captcha"/>}
         </div>
     }
 }
 
 const mapStateToProps = (state) => ({
-    isAuth: state.auth.isAuth
+    isAuth: state.auth.isAuthб,
+    captchaUrl: state.auth.captchaUrl
 })
 
 export default connect(mapStateToProps, {login})(Login)

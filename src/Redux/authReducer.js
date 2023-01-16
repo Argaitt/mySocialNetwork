@@ -1,25 +1,31 @@
 import {authAPI} from "../api/api";
 
 const SET_USER_DATA = 'SET_USER_DATA'
+const GET_CAPTCHA_URL = 'GET_CAPTCHA_URL'
 
 
 let initialState = {
     userId: null,
     email: null,
     login: null,
-    isAuth: false
+    isAuth: false,
+    captchaUrl: null
 }
 
 const authReducer = (state = initialState, action) => {
     switch (action.type){
         case SET_USER_DATA:
             return {...state, ...action.payload}
+        case GET_CAPTCHA_URL:
+            return  {...state, captchaUrl: action.captchaUrl}
         default:
             return state
     }
 }
 
 export const setUserAuthData = (userId, email, login, isAuth) => ({type: SET_USER_DATA, payload: {userId, email, login, isAuth}})
+export const setCaptchaUrl = (captchaUrl) => ({type: GET_CAPTCHA_URL, captchaUrl})
+
 export const getAuthDataThunkCreator = () =>{
     return (dispatch) => {
         authAPI.getAuthData().then(data => {
@@ -32,9 +38,12 @@ export const getAuthDataThunkCreator = () =>{
 }
 export const login = (email, password, rememberMe) => (dispatch) => {
     authAPI.login(email, password, rememberMe).then(data => {
+        console.log(data)
         if (data.resultCode === 0 ) {
             let {id, login, email} = data.data
             dispatch(getAuthDataThunkCreator())
+        } else if (data.resultCode === 10){
+            authAPI.getCaptcha().then(data => dispatch(setCaptchaUrl(data.url)))
         }
     })
 }
