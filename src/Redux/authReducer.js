@@ -9,7 +9,8 @@ let initialState = {
     email: null,
     login: null,
     isAuth: false,
-    captchaUrl: null
+    captchaUrl: null,
+    captchaTxt: ''
 }
 
 const authReducer = (state = initialState, action) => {
@@ -36,8 +37,8 @@ export const getAuthDataThunkCreator = () =>{
         })
     }
 }
-export const login = (email, password, rememberMe) => (dispatch) => {
-    authAPI.login(email, password, rememberMe).then(data => {
+export const login = (email, password, rememberMe, captchaTxt) => (dispatch) => {
+    authAPI.login(email, password, rememberMe, captchaTxt).then(data => {
         console.log(data)
         if (data.resultCode === 0 ) {
             let {id, login, email} = data.data
