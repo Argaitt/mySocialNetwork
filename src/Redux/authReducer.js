@@ -1,4 +1,5 @@
 import {authAPI} from "../api/api";
+import {stopSubmit} from "redux-form";
 
 const SET_USER_DATA = 'SET_USER_DATA'
 const GET_CAPTCHA_URL = 'GET_CAPTCHA_URL'
@@ -45,6 +46,9 @@ export const login = (email, password, rememberMe, captchaTxt) => (dispatch) => 
             dispatch(getAuthDataThunkCreator())
         } else if (data.resultCode === 10){
             authAPI.getCaptcha().then(data => dispatch(setCaptchaUrl(data.url)))
+        } else {
+            let messages = data.messages > 0 ? data.messages[0] : 'some error'
+            dispatch(stopSubmit('login',{_error: data.messages}))
         }
     })
 }

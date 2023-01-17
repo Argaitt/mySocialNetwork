@@ -5,6 +5,7 @@ import {requiredField} from "../../utils/validators/validators";
 import {connect} from "react-redux";
 import {login} from "../../Redux/authReducer";
 import {Navigate} from "react-router-dom";
+import classes from "../FromsControlls/FromsControlls.module.css";
 
 const LoginForm = (props) => {
     return <form onSubmit={props.handleSubmit}>
@@ -20,6 +21,7 @@ const LoginForm = (props) => {
         <div>
             <button>Sign in</button>
         </div>
+        {props.error ? <div className={classes.formSummaryError}>{props.error}</div> : undefined}
         {props.captchaUrl === null ? undefined : <div>
             <div><img src={props.captchaUrl} alt="no captcha"/></div>
             <div><Field name='captchaTxt' type='text' component='input'></Field></div>
