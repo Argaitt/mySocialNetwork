@@ -12,6 +12,7 @@ import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/login/Login";
 import {Component} from "react";
 import {connect} from "react-redux";
+import {initializeApp} from "./Redux/appReduce";
 import {getAuthDataThunkCreator} from "./Redux/authReducer";
 
 class App extends Component {
@@ -46,4 +47,4 @@ class App extends Component {
     }
 }
 
-export default connect(null, {getAuthDataThunkCreator})(App);
+export default connect(null, {initializeApp, getAuthDataThunkCreator})(App);
