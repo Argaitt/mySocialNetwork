@@ -14,37 +14,46 @@ import {Component} from "react";
 import {connect} from "react-redux";
 import {initializeApp} from "./Redux/appReduce";
 import {getAuthDataThunkCreator} from "./Redux/authReducer";
+import Preloader from "./components/Preloader/Preloader";
 
 class App extends Component {
     componentDidMount() {
-        this.props.getAuthDataThunkCreator()
+        this.props.initializeApp()
     }
     render() {
-        return (
-            <div className={"app-wrapper"}>
-                <HeaderContainer/>
-                <Nav/>
-                <div className={"app-wrapper-content"}>
-                    <Routes>
-                        <Route path='/login/' element={<Login/>}></Route>
-                        <Route path="/profile/" element={<ProfileContainer/>}>
-                            <Route path=":userid" element={<ProfileContainer/>}/>
-                            <Route path="" element={<ProfileContainer/>}/>
-                        </Route>
-                        <Route path='/' element={<ProfileContainer/>}/>
-                        <Route path="/dialogs/*"
-                               element={<DialogsContainer/>}/>
-                        <Route path="/news/*" element={<News/>}/>
-                        <Route path="/settings/*" element={<Settings/>}/>
-                        <Route path="/music/*" element={<Music/>}/>
-                        <Route path="/funspace/*"
-                               element={<Funspace/>}/>
-                        <Route path='/users/*' element={<UsersContainer/>}/>
-                    </Routes>
+        if (this.props.initialized){
+            return (
+                <div className={"app-wrapper"}>
+                    <HeaderContainer/>
+                    <Nav/>
+                    <div className={"app-wrapper-content"}>
+                        <Routes>
+                            <Route path='/login/' element={<Login/>}></Route>
+                            <Route path="/profile/" element={<ProfileContainer/>}>
+                                <Route path=":userid" element={<ProfileContainer/>}/>
+                                <Route path="" element={<ProfileContainer/>}/>
+                            </Route>
+                            <Route path='/' element={<ProfileContainer/>}/>
+                            <Route path="/dialogs/*"
+                                   element={<DialogsContainer/>}/>
+                            <Route path="/news/*" element={<News/>}/>
+                            <Route path="/settings/*" element={<Settings/>}/>
+                            <Route path="/music/*" element={<Music/>}/>
+                            <Route path="/funspace/*"
+                                   element={<Funspace/>}/>
+                            <Route path='/users/*' element={<UsersContainer/>}/>
+                        </Routes>
+                    </div>
                 </div>
-            </div>
-        )
+            )
+        } else {
+            return <Preloader/>
+        }
     }
 }
 
-export default connect(null, {initializeApp, getAuthDataThunkCreator})(App);
+const mapStateToProps = (state) => ({
+    initialized: state.app.initialized
+})
+
+export default connect(mapStateToProps, {initializeApp, getAuthDataThunkCreator})(App);

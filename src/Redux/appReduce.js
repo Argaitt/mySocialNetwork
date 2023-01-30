@@ -7,7 +7,7 @@ let initialState = {
 }
 
 const appReducer = (state = initialState, action) => {
-    switch (action.type){
+    switch (action.type) {
         case INITIALIZING_SUCCESS:
             return {...state, initialized: true}
         default:
@@ -18,8 +18,11 @@ const appReducer = (state = initialState, action) => {
 export const initializingSuccess = () => ({type: INITIALIZING_SUCCESS})
 
 export const initializeApp = () => (dispatch) => {
-    let dispatchresult = dispatch(getAuthDataThunkCreator())
-    console.log(dispatchresult)
+    let promises = [dispatch(getAuthDataThunkCreator())]
+    Promise.all(promises).then(() => {
+            dispatch(initializingSuccess())
+        }
+    )
 }
 
 export default appReducer

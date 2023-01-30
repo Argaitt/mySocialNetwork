@@ -28,16 +28,15 @@ const authReducer = (state = initialState, action) => {
 export const setUserAuthData = (userId, email, login, isAuth) => ({type: SET_USER_DATA, payload: {userId, email, login, isAuth}})
 export const setCaptchaUrl = (captchaUrl) => ({type: GET_CAPTCHA_URL, captchaUrl})
 
-export const getAuthDataThunkCreator = () =>{
-    return (dispatch) => {
+export const getAuthDataThunkCreator = () =>
+    (dispatch) =>
         authAPI.getAuthData().then(data => {
-            if (data.resultCode === 0){
+            if (data.resultCode === 0) {
                 let {id, login, email} = data.data
                 dispatch(setUserAuthData(id, email, login, true))
             }
         })
-    }
-}
+
 export const login = (email, password, rememberMe, captchaTxt) => (dispatch) => {
     authAPI.login(email, password, rememberMe, captchaTxt).then(data => {
         console.log(data)

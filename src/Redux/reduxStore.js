@@ -6,6 +6,7 @@ import userReducer from "./userReducer";
 import authReducer from "./authReducer";
 import thunkMiddleware from "redux-thunk"
 import {reducer} from "redux-form";
+import appReducer from "./appReduce";
 
 //TODO: rewrite with redux toolkit
 let reducers = combineReducers({
@@ -14,6 +15,7 @@ let reducers = combineReducers({
     funspacePage: funReducer,
     usersPage: userReducer,
     auth: authReducer,
+    app: appReducer,
     form: reducer
 });
 
