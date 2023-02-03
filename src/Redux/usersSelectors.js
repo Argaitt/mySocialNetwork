@@ -1,4 +1,7 @@
-export const getUsers = (state) => {
+//primitive selectors
+import {createSelector} from "@reduxjs/toolkit";
+
+const getUsersPrimitive = (state) => {
     return state.usersPage.users;
 }
 
@@ -21,3 +24,6 @@ export const getIsFetchingStatus = (state) => {
 export const getFollowingInProgress = (state) => {
     return state.usersPage.followingInProgress;
 }
+
+//non-primitive selectors
+export const getUsers = createSelector(getUsersPrimitive,users => users.filter(u => true))
