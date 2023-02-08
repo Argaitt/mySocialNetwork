@@ -5,7 +5,7 @@ import AddNewMyPostReduxForm from "./AddNewMyPostReduxForm";
 
 class MyPosts extends React.Component {
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return JSON.stringify(this.props) != JSON.stringify(nextProps)
+        return JSON.stringify(this.props) != JSON.stringify(nextProps) || JSON.stringify(this.state) != JSON.stringify(nextState)
     }
 
     render() {
