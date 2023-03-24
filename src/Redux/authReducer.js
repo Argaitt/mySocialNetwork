@@ -37,26 +37,22 @@ export const getAuthDataThunkCreator = () =>
             }
         })
 
-export const login = (email, password, rememberMe, captchaTxt) => (dispatch) => {
-    authAPI.login(email, password, rememberMe, captchaTxt).then(data => {
-        console.log(data)
-        if (data.resultCode === 0 ) {
-            let {id, login, email} = data.data
-            dispatch(getAuthDataThunkCreator())
-        } else if (data.resultCode === 10){
-            authAPI.getCaptcha().then(data => dispatch(setCaptchaUrl(data.url)))
-        } else {
-            let messages = data.messages > 0 ? data.messages[0] : 'some error'
-            dispatch(stopSubmit('login',{_error: data.messages}))
-        }
-    })
+export const login = (email, password, rememberMe, captchaTxt) => async (dispatch) => {
+    let responce = await authAPI.login(email, password, rememberMe, captchaTxt)
+    console.log(responce)
+    if (responce.resultCode === 0) {
+        dispatch(getAuthDataThunkCreator())
+    } else if (responce.resultCode === 10) {
+        authAPI.getCaptcha().then(data => dispatch(setCaptchaUrl(data.url)))
+    } else {
+        dispatch(stopSubmit('login', {_error: responce.messages}))
+    }
 }
 
-export  const logout = () => (dispatch) => {
-    authAPI.logout().then(data => {
-        if (data.resultCode === 0){
+export  const logout = () => async (dispatch) => {
+    let response = await authAPI.logout()
+        if (response.resultCode === 0){
             dispatch(setUserAuthData(null, null, null, false))
         }
-    })
 }
 export default authReducer
