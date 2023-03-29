@@ -7,8 +7,8 @@ import {login} from "../../Redux/authReducer";
 import {Navigate} from "react-router-dom";
 import classes from "../FromsControlls/FromsControlls.module.css";
 
-const LoginForm = (props) => {
-    return <form onSubmit={props.handleSubmit}>
+const LoginForm = ({handleSubmit, error, captchaUrl}) => {
+    return <form onSubmit={handleSubmit}>
         <div>
             <Field validate={[requiredField]} name='email' type="text" placeholder='email' component={Input}/>
         </div>
@@ -21,9 +21,9 @@ const LoginForm = (props) => {
         <div>
             <button>Sign in</button>
         </div>
-        {props.error ? <div className={classes.formSummaryError}>{props.error}</div> : undefined}
-        {props.captchaUrl === null ? undefined : <div>
-            <div><img src={props.captchaUrl} alt="no captcha"/></div>
+        {error ? <div className={classes.formSummaryError}>{error}</div> : undefined}
+        {captchaUrl === null ? undefined : <div>
+            <div><img src={captchaUrl} alt="no captcha"/></div>
             <div><Field name='captchaTxt' type='text' component='input'></Field></div>
         </div>}
     </form>
