@@ -30,12 +30,12 @@ export const Input = (props) => {
     </FormControl>
 }
 
-export const createField = (placeholder, validators, name, component, props) => <div>
+export const createField = (placeholder, validators, name, component, props = {}, text = '') => <div>
     <Field
         validate={validators}
         name={name}
         placeholder={placeholder}
         component={component}
         {...props}
-    />
+    /> {text}
 </div>
