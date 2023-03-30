@@ -1,5 +1,7 @@
 import React from "react";
 import classes from "./FromsControlls.module.css";
+import {requiredField} from "../../utils/validators/validators";
+import {Field} from "redux-form";
 //TODO: if error is 'maxlength' then except meta.touch condition
 
 export const FormControl = ({input, meta, ...props}) => {
@@ -27,3 +29,13 @@ export const Input = (props) => {
         <input {...input} {...restProps}/>
     </FormControl>
 }
+
+export const createField = (placeholder, validators, name, component, props) => <div>
+    <Field
+        validate={validators}
+        name={name}
+        placeholder={placeholder}
+        component={component}
+        {...props}
+    />
+</div>

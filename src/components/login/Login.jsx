@@ -1,30 +1,25 @@
 import React from "react";
 import {Field, reduxForm} from "redux-form";
-import {Input} from "../FromsControlls/FromsControlls";
+import {createField, Input} from "../FromsControlls/FormsControlls";
 import {requiredField} from "../../utils/validators/validators";
 import {connect} from "react-redux";
 import {login} from "../../Redux/authReducer";
 import {Navigate} from "react-router-dom";
 import classes from "../FromsControlls/FromsControlls.module.css";
 
+
 const LoginForm = ({handleSubmit, error, captchaUrl}) => {
     return <form onSubmit={handleSubmit}>
-        <div>
-            <Field validate={[requiredField]} name='email' type="text" placeholder='email' component={Input}/>
-        </div>
-        <div>
-            <Field validate={[requiredField]} name='password' type="password" placeholder='password' component={Input}/>
-        </div>
-        <div>
-            <Field name='rememberMe' type="checkbox" component={Input}/> remember me
-        </div>
+        {createField('email',[requiredField],'email', Input, {type: 'text'})}
+        {createField('password',[requiredField],'password', Input, {type:'password'})}
+        {createField(null,null,'rememberMe', Input, {type:'checkbox'})}
         <div>
             <button>Sign in</button>
         </div>
         {error ? <div className={classes.formSummaryError}>{error}</div> : undefined}
         {captchaUrl === null ? undefined : <div>
             <div><img src={captchaUrl} alt="no captcha"/></div>
-            <div><Field name='captchaTxt' type='text' component='input'></Field></div>
+            {createField(null,null,'captchaTxt', 'input', {type:'text'})}
         </div>}
     </form>
 }
