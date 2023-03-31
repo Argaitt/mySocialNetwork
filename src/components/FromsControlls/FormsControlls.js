@@ -4,13 +4,13 @@ import {requiredField} from "../../utils/validators/validators";
 import {Field} from "redux-form";
 //TODO: if error is 'maxlength' then except meta.touch condition
 
-export const FormControl = ({input, meta, ...props}) => {
-    const hasError = meta.error && meta.touched
+export const FormControl = ({input, meta:{error, touched}, ...props}) => {
+    const hasError = error && touched
     return(
         <div className={classes.formControlL + ' ' +(hasError ? classes.error : undefined)}>
             {props.children}
             <div>
-                {hasError ? <span>{meta.error}</span> : undefined}
+                {hasError ? <span>{error}</span> : undefined}
             </div>
         </div>
     )
