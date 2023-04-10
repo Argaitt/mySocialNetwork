@@ -1,7 +1,7 @@
 import dialogReducer from "./dialogReducer";
 import profileReducer from "./profileReducer";
 import funReducer from "./funReducer";
-import {applyMiddleware, combineReducers, legacy_createStore as createStore} from "@reduxjs/toolkit";
+import {applyMiddleware, combineReducers, compose, legacy_createStore as createStore} from "@reduxjs/toolkit";
 import userReducer from "./userReducer";
 import authReducer from "./authReducer";
 import thunkMiddleware from "redux-thunk"
@@ -19,7 +19,10 @@ let reducers = combineReducers({
     form: reducer
 });
 
-const store = createStore(reducers, applyMiddleware(thunkMiddleware));
-//TODO: for debugging will delete after develop
-window.store = store
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducers, composeEnhancers(
+    applyMiddleware(thunkMiddleware)
+));
+
+//const store = createStore(reducers, applyMiddleware(thunkMiddleware));
 export default store;
